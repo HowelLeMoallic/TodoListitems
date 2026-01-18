@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="TodoListItems.Application/TodoListItems.Application.csproj" />
+  <Project Path="TodoListItems.BlazorServer/TodoListItems.BlazorServer.csproj" />
+  <Project Path="TodoListItems.Infrastructure/TodoListItems.Infrastructure.csproj" />
+  <Project Path="TodoListItems.Domain/TodoListItems.Domain.csproj" />
+</Solution>

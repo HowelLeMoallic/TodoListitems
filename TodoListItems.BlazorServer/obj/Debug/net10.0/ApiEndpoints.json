@@ -1,0 +1,22 @@
+[
+  {
+    "ContainingType": "TodoListItems.BlazorServer.Controllers.TodoListItemsController",
+    "Method": "GetAllTODO_Items",
+    "RelativePath": "TodoListItems",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "TodoListItems.Application.DTO.ServiceResponse\u00601[[System.Collections.Generic.List\u00601[[TodoListItems.Application.DTO.TODO_ItemDTO, TodoListItems.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
