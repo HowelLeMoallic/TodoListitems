@@ -20,5 +20,11 @@ namespace TodoListItems.BlazorServer.Controllers
         {
             return _todoListItemsService.GetAllTODO_Items();
         }
+
+        [HttpPost]
+        public ActionResult<ServiceResponse<List<TODO_ItemDTO>>> GetFilterTODO_Items(FliterTodoListItem filter)
+        {
+            return _todoListItemsService.GetFilterTODO_Items(filter);
+        }
     }
 }

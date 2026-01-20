@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="TodoListItems.Application/TodoListItems.Application.csproj" />
   <Project Path="TodoListItems.BlazorServer/TodoListItems.BlazorServer.csproj" />
-  <Project Path="TodoListItems.Infrastructure/TodoListItems.Infrastructure.csproj" />
   <Project Path="TodoListItems.Domain/TodoListItems.Domain.csproj" />
+  <Project Path="TodoListItems.Infrastructure/TodoListItems.Infrastructure.csproj" />
+  <Project Path="TodoListItems.Tests.Unit/TodoListItems.Tests.Unit.csproj" Id="066da2d9-be24-484d-bc08-ccddd194d42b" />
 </Solution>

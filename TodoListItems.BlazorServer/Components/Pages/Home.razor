@@ -1,11 +1,25 @@
 ﻿@page "/"
-
+@using TodoListItems.Application.Enum;
+@using TodoListItems.Application;
 <PageTitle>TODO list</PageTitle>
 
 <h1>Mes tâches</h1>
 
+<div>
+    @foreach(var item in Core.EnumDictionary<TODO_ItemsStatus>())
+    {
+        <button style="background-color:yellow;" @onclick="() => FilterToDoListItems(item.Key)">
+            @item.Value
+        </button>
+    }
+    
+    <button style="background-color:yellow;" @onclick="GoToCreatePage">
+        Ajouter un élément
+    </button>
+</div>
 @foreach(var item in todo_ItemDTOs)
 {
     <h2>@item.Title</h2>
     <p>@item.Description</p>
+    <p>@item.todo_ItemsStatus.ToString()</p>
 }
