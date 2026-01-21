@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TodoListItems.Application.DTO;
+using TodoListItems.Application.Enum;
 
 namespace TodoListItems.BlazorServer.Components.Pages
 {
@@ -41,6 +42,14 @@ namespace TodoListItems.BlazorServer.Components.Pages
             todo_ItemDTOs = serviceResponse?.Data ?? [];
         }
 
+        public async Task UpdateStatus(TODO_ItemDTO item)
+        {
+            item.todo_ItemsStatus = TODO_ItemsStatus.Finished;
+            var response = await httpClient.PutAsJsonAsync<TODO_ItemDTO>("https://localhost:7004/todolistitems", item);
+
+            var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<TODO_ItemDTO>>();
+
+        }
         /// <summary>
         /// Permet de changer de page
         /// </summary>

@@ -23,4 +23,5 @@
     <p>@item.Description</p>
     <p>@item.todo_ItemsStatus.ToString()</p>
     <button @onclick="() => GoToEdit(item.IdItem)">Modifier</button>
+    <button @onclick="() => UpdateStatus(item)">Terminer</button>
 }

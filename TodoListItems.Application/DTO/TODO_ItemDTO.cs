@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using TodoListItems.Application.Enum;
+﻿using TodoListItems.Application.Enum;
 
 namespace TodoListItems.Application.DTO
 {

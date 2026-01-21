@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Linq;
 using TodoListItems.Application.DTO;
 using TodoListItems.Application.Enum;
 using TodoListItems.Application.Interfaces;
@@ -103,6 +102,59 @@ namespace TodoListItems.Application.Services
                 };
             }
 
+        }
+
+        /// <summary>
+        /// Met à jour l'item
+        /// </summary>
+        /// <param name="item">item à mettre à jour</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public ServiceResponse<TODO_ItemDTO> UpdateTODO_Item(TODO_ItemDTO item)
+        {
+            try
+            {
+                var itemToUpdate = _repository.GetTODO_ItemById(item.IdItem);
+                if (itemToUpdate == null)
+                {
+                    return new ServiceResponse<TODO_ItemDTO>
+                    {
+                        Code = ServiceResponseCode.ErrorBusiness,
+                        Message = "l'item n'a pas été retrouvé en base"
+                    };
+                }
+
+                itemToUpdate.Title = item.Title;
+                itemToUpdate.Description = item.Description;
+                itemToUpdate.IdStatus = (int)item.todo_ItemsStatus;
+
+                var response = _repository.UpdateTODO_Item(itemToUpdate);
+
+                if (response == null)
+                {
+                    return new ServiceResponse<TODO_ItemDTO>
+                    {
+                        Code = ServiceResponseCode.ErrorDB,
+                        Message = "l'item n'a pas été mise à jour en base"
+                    };
+                }
+
+                return new ServiceResponse<TODO_ItemDTO>
+                {
+                    Code = ServiceResponseCode.Success,
+                    Message = "l'item a été mise à jour en base",
+                    Data = item
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(String.Format("Erreur durant la mise à jour du todo item : {0}", ex.Message));
+                return new ServiceResponse<TODO_ItemDTO>
+                {
+                    Code = ServiceResponseCode.Error,
+                    Message = "Erreur durant la mise à jour du todo item"
+                };
+            }      
         }
     }
 }

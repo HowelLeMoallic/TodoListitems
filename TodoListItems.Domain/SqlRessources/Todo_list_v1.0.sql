@@ -56,6 +56,7 @@ BEGIN
 		IdStatus int not null,
 		CreatedBy int not null,
 		Created DateTime not null,
+		CONSTRAINT PK_TODO_Item_TODO PRIMARY KEY(IdItem),
 		CONSTRAINT FK_TODO_Item_TODO_ItemStatus FOREIGN KEY(IdStatus) REFERENCES [TODO_LIST].[enum].TODO_ItemStatus(IdStatus)
 	)
 END
