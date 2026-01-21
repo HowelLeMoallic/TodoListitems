@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using TodoListItems.Application.Enum;
 @using TodoListItems.Application;
+
 <PageTitle>TODO list</PageTitle>
 
 <h1>Mes tâches</h1>
@@ -12,14 +13,14 @@
             @item.Value
         </button>
     }
+
+    <button @onclick="GoToCreate">Ajouter un élément</button>
     
-    <button style="background-color:yellow;" @onclick="GoToCreatePage">
-        Ajouter un élément
-    </button>
 </div>
 @foreach(var item in todo_ItemDTOs)
 {
     <h2>@item.Title</h2>
     <p>@item.Description</p>
     <p>@item.todo_ItemsStatus.ToString()</p>
+    <button @onclick="() => GoToEdit(item.IdItem)">Modifier</button>
 }

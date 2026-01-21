@@ -1,14 +1,14 @@
 
-using System.Net.Http;
-using System.Net.Http.Json;
+using Microsoft.AspNetCore.Components;
 using TodoListItems.Application.DTO;
-using TodoListItems.Application.Enum;
-using TodoListItems.BlazorServer.Controllers;
 
 namespace TodoListItems.BlazorServer.Components.Pages
 {
     public partial class Home
     {
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
         private List<TODO_ItemDTO> todo_ItemDTOs = [];
         private static readonly HttpClient httpClient = new()
         {
@@ -42,11 +42,15 @@ namespace TodoListItems.BlazorServer.Components.Pages
         }
 
         /// <summary>
-        /// Permet d'aller à la page création d'élément
+        /// Permet de changer de page
         /// </summary>
-        private void GoToCreatePage()
+        /// <param name="uri">url de la page</param>
+        public void Navigate(string uri)
         {
-
+            NavigationManager.NavigateTo(uri, false, false);
         }
+
+        private void GoToCreate() => Navigate("/Create");
+        private void GoToEdit(int id) => Navigate(String.Format("/Edit/{0}",id));
     }
 }
