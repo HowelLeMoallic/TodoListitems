@@ -21,9 +21,9 @@ public partial class TODO_LISTContext : DbContext
     {
         modelBuilder.Entity<TODO_Item>(entity =>
         {
-            entity.Property(e => e.IdItem).ValueGeneratedOnAdd();
+            entity.HasKey(e => e.IdItem).HasName("PK__TODO_Ite__51E8426205C7DFA4");
 
-            entity.HasOne(d => d.IdStatusNavigation).WithMany()
+            entity.HasOne(d => d.IdStatusNavigation).WithMany(p => p.TODO_Items)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TODO_Item_TODO_ItemStatus");
         });

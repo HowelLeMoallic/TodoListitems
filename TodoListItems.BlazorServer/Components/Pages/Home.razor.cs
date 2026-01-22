@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
+using System.Net.Http.Json;
 using TodoListItems.Application.DTO;
 using TodoListItems.Application.Enum;
 
@@ -17,6 +18,16 @@ namespace TodoListItems.BlazorServer.Components.Pages
         };
 
         protected override async Task OnInitializedAsync()
+        {
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<TODO_ItemDTO>>>("todolistitems");
+            todo_ItemDTOs = response?.Data ?? [];
+        }
+
+        /// <summary>
+        /// Permet de reset la liste des items
+        /// </summary>
+        /// <returns></returns>
+        public async Task RefreshDatas()
         {
             var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<TODO_ItemDTO>>>("todolistitems");
             todo_ItemDTOs = response?.Data ?? [];
@@ -42,6 +53,11 @@ namespace TodoListItems.BlazorServer.Components.Pages
             todo_ItemDTOs = serviceResponse?.Data ?? [];
         }
 
+        /// <summary>
+        /// Met à jour le statut
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public async Task UpdateStatus(TODO_ItemDTO item)
         {
             item.todo_ItemsStatus = TODO_ItemsStatus.Finished;
@@ -50,6 +66,24 @@ namespace TodoListItems.BlazorServer.Components.Pages
             var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<TODO_ItemDTO>>();
 
         }
+
+        /// <summary>
+        /// Supprime l'item en db
+        /// </summary>
+        /// <param name="idItemStatus"></param>
+        /// <returns></returns>
+        public async Task DeleteToDoItem(int idItemStatus)
+        {
+            var response = await httpClient.DeleteFromJsonAsync<ServiceResponse<Boolean>>("https://localhost:7004/todolistitems/"+ idItemStatus.ToString());
+
+            if(response?.IsSuccess == true)
+            {
+                todo_ItemDTOs.Remove(todo_ItemDTOs.First(item => item.IdItem == idItemStatus));
+            }
+            
+        }
+
+
         /// <summary>
         /// Permet de changer de page
         /// </summary>
@@ -59,7 +93,18 @@ namespace TodoListItems.BlazorServer.Components.Pages
             NavigationManager.NavigateTo(uri, false, false);
         }
 
+        #region Changement de page
+
+        /// <summary>
+        /// Va à la page de création
+        /// </summary>
         private void GoToCreate() => Navigate("/Create");
+
+        /// <summary>
+        /// Va à la page de modification
+        /// </summary>
+        /// <param name="id"></param>
         private void GoToEdit(int id) => Navigate(String.Format("/Edit/{0}",id));
+        #endregion
     }
 }

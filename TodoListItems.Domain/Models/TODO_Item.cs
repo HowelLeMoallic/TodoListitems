@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TodoListItems.Domain.Models;
 
-[Keyless]
 [Table("TODO_Item")]
 public partial class TODO_Item
 {
+    [Key]
     public int IdItem { get; set; }
 
     [StringLength(128)]
@@ -30,5 +30,6 @@ public partial class TODO_Item
     public DateTime Created { get; set; }
 
     [ForeignKey("IdStatus")]
+    [InverseProperty("TODO_Items")]
     public virtual TODO_ItemStatus IdStatusNavigation { get; set; }
 }

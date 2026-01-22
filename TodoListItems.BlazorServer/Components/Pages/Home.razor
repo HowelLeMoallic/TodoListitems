@@ -7,6 +7,9 @@
 <h1>Mes tâches</h1>
 
 <div>
+    <button style="background-color:yellow;" @onclick="RefreshDatas">
+        Toutes
+    </button>
     @foreach(var item in Core.EnumDictionary<TODO_ItemsStatus>())
     {
         <button style="background-color:yellow;" @onclick="() => FilterToDoListItems(item.Key)">
@@ -24,4 +27,5 @@
     <p>@item.todo_ItemsStatus.ToString()</p>
     <button @onclick="() => GoToEdit(item.IdItem)">Modifier</button>
     <button @onclick="() => UpdateStatus(item)">Terminer</button>
+    <button @onclick="() => DeleteToDoItem(item.IdItem)">Supprimer</button>
 }

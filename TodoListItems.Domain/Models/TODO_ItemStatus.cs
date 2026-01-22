@@ -17,4 +17,7 @@ public partial class TODO_ItemStatus
     [StringLength(128)]
     [Unicode(false)]
     public string Label { get; set; }
+
+    [InverseProperty("IdStatusNavigation")]
+    public virtual ICollection<TODO_Item> TODO_Items { get; set; } = new List<TODO_Item>();
 }

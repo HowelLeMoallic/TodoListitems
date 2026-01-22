@@ -32,5 +32,11 @@ namespace TodoListItems.BlazorServer.Controllers
         {
             return _todoListItemsService.UpdateTODO_Item(item);
         }
+
+        [HttpDelete("{id:int}")]
+        public ActionResult<ServiceResponse<Boolean>> DeleteTODO_Item(int id)
+        {
+            return _todoListItemsService.DeleteTODO_Item(id);
+        }
     }
 }

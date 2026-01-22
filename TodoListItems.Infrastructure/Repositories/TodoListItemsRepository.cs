@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using TodoListItems.Domain.Models;
 using TodoListItems.Infrastructure.Interfaces;
 
@@ -13,6 +15,26 @@ namespace TodoListItems.Infrastructure.Repositories
         {
             _context = context;
             _logger = logger;
+        }
+
+        /// <summary>
+        /// Permet de supprimer un élement de la table todo item
+        /// </summary>
+        /// <param name="id">id de l'item</param>
+        /// <returns></returns>
+        public bool DeleteTODO_Item(int id)
+        {
+            var result = _context.TODO_Items
+            .FirstOrDefault(item => item.IdItem == id);
+
+            if (result != null)
+            {
+                _context.TODO_Items.Remove(result);
+                _context.SaveChanges();
+                return true;
+            }
+            
+            return false;
         }
 
         /// <summary>
@@ -77,6 +99,7 @@ namespace TodoListItems.Infrastructure.Repositories
         public TODO_Item UpdateTODO_Item(TODO_Item item)
         {
             TODO_Item itemUpdated =  _context.TODO_Items.Update(item).Entity;
+            _context.SaveChanges();
             return itemUpdated;
         }
     }

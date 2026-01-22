@@ -19,6 +19,47 @@ namespace TodoListItems.Application.Services
         }
 
         /// <summary>
+        /// Suppression d'un item dans la todo list
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ServiceResponse<bool> DeleteTODO_Item(int id)
+        {
+            try
+            {
+                bool response = _repository.DeleteTODO_Item(id);
+
+                if (!response)
+                {
+                    return new ServiceResponse<bool>
+                    {
+                        Code = ServiceResponseCode.ErrorDB,
+                        Message = String.Format("Erreur durant la suppression de l'item dans la todo list"),
+                        Data = false
+                    };
+                }
+
+                return new ServiceResponse<bool>
+                {
+                    Code = ServiceResponseCode.Success,
+                    Message = "Succès",
+                    Data = true
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(String.Format("Erreur durant la récupération des todo list items : {0}", ex.Message));
+                return new ServiceResponse<bool>
+                {
+                    Code = ServiceResponseCode.Error,
+                    Message = String.Format("Erreur durant la suppression de l'item dans la todo list"),
+                    Data= false
+                };
+            }
+            
+        }
+
+        /// <summary>
         /// Retourne tout les todo list items
         /// </summary>
         /// <returns></returns>
@@ -51,7 +92,7 @@ namespace TodoListItems.Application.Services
                 return new ServiceResponse<List<TODO_ItemDTO>>
                 {
                     Code = ServiceResponseCode.Error,
-                    Message = String.Format("Erreur durant la récupération des todo list items : {0}", ex.Message)
+                    Message = String.Format("Erreur durant la récupération des todo list items ")
                 };
             }
             
@@ -98,7 +139,7 @@ namespace TodoListItems.Application.Services
                 return new ServiceResponse<List<TODO_ItemDTO>>
                 {
                     Code = ServiceResponseCode.Error,
-                    Message = String.Format("Erreur durant la récupération des todo list items filtrés : {0}", ex.Message)
+                    Message = String.Format("Erreur durant la récupération des todo list items filtrés ")
                 };
             }
 
