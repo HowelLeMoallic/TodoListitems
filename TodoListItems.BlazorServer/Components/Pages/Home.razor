@@ -6,20 +6,24 @@
 
 <h1>Mes tâches</h1>
 
-<div>
-    <button style="background-color:yellow;" @onclick="RefreshDatas">
-        Toutes
-    </button>
-    @foreach(var item in Core.EnumDictionary<TODO_ItemsStatus>())
-    {
-        <button style="background-color:yellow;" @onclick="() => FilterToDoListItems(item.Key)">
-            @item.Value
+<div class="d-flex flex-row">
+    <div class="col-8">
+        <button class="col-2 me-2" style="background-color:yellow;" @onclick="RefreshDatas">
+            Toutes
         </button>
-    }
-
-    <button @onclick="GoToCreate">Ajouter un élément</button>
+        @foreach (var item in Core.EnumDictionary<TODO_ItemsStatus>())
+        {
+            <button class="col-2 me-2" style="background-color:yellow;" @onclick="() => FilterToDoListItems(item.Key)">
+                @item.Value
+            </button>
+        }
+    </div>
     
+    <div class="col-4 d-flex justify-content-end">
+        <button @onclick="GoToCreate">Ajouter un élément</button>
+    </div>
 </div>
+
 @foreach(var item in todo_ItemDTOs)
 {
     <h2>@item.Title</h2>

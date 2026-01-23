@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using System.Net.Http.Json;
 using TodoListItems.Application.DTO;
 using TodoListItems.Application.Enum;
 
@@ -14,7 +13,7 @@ namespace TodoListItems.BlazorServer.Components.Pages
         private List<TODO_ItemDTO> todo_ItemDTOs = [];
         private static readonly HttpClient httpClient = new()
         {
-            BaseAddress = new Uri("https://localhost:7004/"),
+            BaseAddress = new Uri(Config.Config.Url),
         };
 
         protected override async Task OnInitializedAsync()
@@ -46,7 +45,7 @@ namespace TodoListItems.BlazorServer.Components.Pages
                 IdItemStatus = idItemStatus
             };
             //Envoie requête au controller
-            var response = await httpClient.PostAsJsonAsync<FliterTodoListItem>("https://localhost:7004/todolistitems", filter);
+            var response = await httpClient.PostAsJsonAsync<FliterTodoListItem>("todolistitems", filter);
 
             //Transforme retour pour mettre à jour la liste
             var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<TODO_ItemDTO>>>();
@@ -61,7 +60,7 @@ namespace TodoListItems.BlazorServer.Components.Pages
         public async Task UpdateStatus(TODO_ItemDTO item)
         {
             item.todo_ItemsStatus = TODO_ItemsStatus.Finished;
-            var response = await httpClient.PutAsJsonAsync<TODO_ItemDTO>("https://localhost:7004/todolistitems", item);
+            var response = await httpClient.PutAsJsonAsync<TODO_ItemDTO>("todolistitems", item);
 
             var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<TODO_ItemDTO>>();
 
@@ -74,7 +73,7 @@ namespace TodoListItems.BlazorServer.Components.Pages
         /// <returns></returns>
         public async Task DeleteToDoItem(int idItemStatus)
         {
-            var response = await httpClient.DeleteFromJsonAsync<ServiceResponse<Boolean>>("https://localhost:7004/todolistitems/"+ idItemStatus.ToString());
+            var response = await httpClient.DeleteFromJsonAsync<ServiceResponse<Boolean>>("todolistitems/"+ idItemStatus.ToString());
 
             if(response?.IsSuccess == true)
             {

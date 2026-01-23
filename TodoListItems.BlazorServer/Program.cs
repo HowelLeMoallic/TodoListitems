@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using TodoListItems.Application;
 using TodoListItems.BlazorServer.Components;
-using TodoListItems.Domain.Models;
+using TodoListItems.BlazorServer.Config;
 using TodoListItems.Infrastructure;
-using TodoListItems.Infrastructure.Interfaces;
 using TodoListItems.Infrastructure.Repositories;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +19,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Ajout du service de MudBlazor
+builder.Services.AddMudServices();
+
 //ajout de la connection string depuis le config
-var dbConfig = builder.Configuration.GetSection(nameof(TodoListDatabaseSettings));
-TodoListDatabaseSettings.ConnectionString = dbConfig.GetValue<string>(nameof(TodoListDatabaseSettings.ConnectionString));
+IConfigurationSection dbConfig = builder.Configuration.GetSection(nameof(TodoListDatabaseSettings));
+TodoListDatabaseSettings.ConnectionString = dbConfig.GetValue<string>(nameof(TodoListDatabaseSettings.ConnectionString)) ?? string.Empty;
+
+//Config général
+IConfigurationSection config = builder.Configuration.GetSection(nameof(Config));
+Config.Url = config.GetValue<string>(nameof(Config.Url)) ?? string.Empty;
 
 //Injection de dépendances des services et repositories
 builder.Services.AddInfrastructure(builder.Configuration);
