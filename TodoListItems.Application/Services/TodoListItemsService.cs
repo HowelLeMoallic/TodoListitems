@@ -84,7 +84,7 @@ namespace TodoListItems.Application.Services
 
             var itemCreated = _repository.CreateTODO_Item(itemToCreate);
 
-            if (itemCreated != null)
+            if (itemCreated == null)
             {
                 return new ServiceResponse<TODO_ItemDTO>
                 {
