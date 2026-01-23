@@ -215,5 +215,50 @@ namespace TodoListItems.Tests.Unit
             ServiceResponse<TODO_ItemDTO> response = service.UpdateTODO_Item(newItem);
             Assert.True(response.IsSuccess);
         }
+
+        [Fact]
+        public void CreateTODOItem()
+        {
+            TODO_Item newItem = new TODO_Item()
+            {
+                IdItem = 0,
+                Title = "Test création item",
+                IdStatus = (int)TODO_ItemsStatus.Finished,
+                Created = DateTime.Now,
+                CreatedBy = 1,
+                Description = "Description création item",
+            };
+
+            TODO_Item newItemCreated = new TODO_Item()
+            {
+                IdItem = 4,
+                Title = "Test création item",
+                IdStatus = (int)TODO_ItemsStatus.Finished,
+                Created = DateTime.Now,
+                CreatedBy = 1,
+                Description = "Description création item",
+            };
+
+            TODO_ItemDTO newItemDto = new TODO_ItemDTO()
+            {
+                IdItem = 0,
+                Title = "Test création item",
+                todo_ItemsStatus = TODO_ItemsStatus.Finished,
+                Created = DateTime.Now,
+                CreatedBy = 1,
+                Description = "Description création item",
+            };
+
+            mockRepo
+                .Setup(r => r.CreateTODO_Item(newItem))
+                .Returns(newItem);
+
+            var mockILogger = new Mock<ILogger<TodoListItemsRepository>>();
+            var service = new TodoListItemsService(mockRepo.Object, mockILogger.Object);
+
+            //Act
+            ServiceResponse<TODO_ItemDTO> response = service.CreateTODO_Item(newItemDto);
+            Assert.True(response.IsSuccess);
+        }
     }
 }
