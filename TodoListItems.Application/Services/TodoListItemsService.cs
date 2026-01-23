@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Azure;
+using Microsoft.Extensions.Logging;
 using TodoListItems.Application.DTO;
 using TodoListItems.Application.Enum;
 using TodoListItems.Application.Interfaces;
+using TodoListItems.Domain.Models;
 using TodoListItems.Infrastructure.Interfaces;
 using TodoListItems.Infrastructure.Repositories;
 
@@ -16,6 +18,89 @@ namespace TodoListItems.Application.Services
         {
             _repository = repository;
             _logger = logger;
+        }
+
+        /// <summary>
+        /// Création d'un item en base
+        /// </summary>
+        /// <param name="item">item à créer</param>
+        /// <returns></returns>
+        public ServiceResponse<TODO_ItemDTO> CreateTODO_Item(TODO_ItemDTO item)
+        {
+            if (item == null)
+            {
+                return new ServiceResponse<TODO_ItemDTO>
+                {
+                    Code = ServiceResponseCode.ErrorBusiness,
+                    Message = String.Format("Un item null ne peut pas être créé")
+                };
+            }
+
+            if (String.IsNullOrEmpty(item.Title))
+            {
+                return new ServiceResponse<TODO_ItemDTO>
+                {
+                    Code = ServiceResponseCode.ErrorBusiness,
+                    Message = String.Format("Un item doit avoir un titre")
+                };
+            }
+
+            if (String.IsNullOrEmpty(item.Description))
+            {
+                return new ServiceResponse<TODO_ItemDTO>
+                {
+                    Code = ServiceResponseCode.ErrorBusiness,
+                    Message = String.Format("Un item doit avoir une description")
+                };
+            }
+
+            if ((int)item.todo_ItemsStatus == 0)
+            {
+                return new ServiceResponse<TODO_ItemDTO>
+                {
+                    Code = ServiceResponseCode.ErrorBusiness,
+                    Message = String.Format("Un item doit avoir un statut")
+                };
+            }
+
+            if (item.CreatedBy == 0)
+            {
+                return new ServiceResponse<TODO_ItemDTO>
+                {
+                    Code = ServiceResponseCode.ErrorBusiness,
+                    Message = String.Format("Un item doit être associé à un utilisateur")
+                };
+            }
+
+            TODO_Item itemToCreate  = new TODO_Item()
+            {
+                CreatedBy = item.CreatedBy,
+                Created = item.Created,
+                Description = item.Description,
+                IdItem = item.IdItem,
+                IdStatus = (int)item.todo_ItemsStatus,
+                Title = item.Title
+            };
+
+            var itemCreated = _repository.CreateTODO_Item(itemToCreate);
+
+            if (itemCreated != null)
+            {
+                return new ServiceResponse<TODO_ItemDTO>
+                {
+                    Code = ServiceResponseCode.ErrorDB,
+                    Message = String.Format("Une erreur est survenue dans l'insertion de l'item en base")
+                };
+            }
+
+            item.IdItem = itemCreated!.IdItem;
+            return new ServiceResponse<TODO_ItemDTO>
+            {
+                Code = ServiceResponseCode.Success,
+                Message = String.Format("Un item doit avoir un titre"),
+                Data = item
+            };
+
         }
 
         /// <summary>

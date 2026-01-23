@@ -27,6 +27,12 @@ namespace TodoListItems.BlazorServer.Controllers
             return _todoListItemsService.GetFilterTODO_Items(filter);
         }
 
+        [HttpPost("create")]
+        public ActionResult<ServiceResponse<TODO_ItemDTO>> CreateTODO_Item(TODO_ItemDTO item)
+        {
+            return _todoListItemsService.CreateTODO_Item(item);
+        }
+
         [HttpPut]
         public ActionResult<ServiceResponse<TODO_ItemDTO>> UpdateTODO_Item(TODO_ItemDTO item)
         {

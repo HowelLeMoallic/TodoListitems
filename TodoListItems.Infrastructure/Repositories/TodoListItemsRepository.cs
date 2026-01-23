@@ -18,6 +18,25 @@ namespace TodoListItems.Infrastructure.Repositories
         }
 
         /// <summary>
+        /// Créer un nouvel item en base de données
+        /// </summary>
+        /// <param name="item">item à créer</param>
+        /// <returns></returns>
+        public TODO_Item? CreateTODO_Item(TODO_Item item)
+        {
+            var result = _context.TODO_Items
+            .Add(item);
+
+            if(result.Entity == null)
+            {
+                return null;
+            }
+
+            _context.SaveChanges();
+            return result.Entity;
+        }
+
+        /// <summary>
         /// Permet de supprimer un élement de la table todo item
         /// </summary>
         /// <param name="id">id de l'item</param>

@@ -4,7 +4,7 @@ namespace TodoListItems.Application.DTO
 {
     public class TODO_ItemDTO
     {
-        public required string Title { get; set; }
+        public string? Title { get; set; }
 
         public string? Description { get; set; }
 

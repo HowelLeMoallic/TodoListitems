@@ -1,8 +1,29 @@
 ﻿@page "/Create"
-
+@using TodoListItems.Application
+@using TodoListItems.Application.Enum
 
 <h3>CreateToDoListItem</h3>
 
-@code {
+<div>
+    <label>Titre</label>
+    <input type="text" name="title" @bind="ItemDto.Title" required/>
+</div>
 
-}
+<div>
+    <label>Description</label>
+    <input type="text" name="description" @bind="ItemDto.Description" required />
+</div>
+
+<div>
+    <label>Statut</label>
+    <select @bind="ItemDto.todo_ItemsStatus" required>
+        @foreach (var item in Core.EnumDictionary<TODO_ItemsStatus>())
+        {
+            <option>@item.Value</option>
+        }
+    </select>
+</div>
+
+<button @onclick="SubmitForm">Valider</button>
+
+
